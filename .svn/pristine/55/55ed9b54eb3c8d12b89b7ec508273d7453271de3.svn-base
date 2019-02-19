@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[5],{BILQ:function(e,a,t){"use strict";var s=t("TqRt");Object.defineProperty(a,"__esModule",{value:!0}),a.default=void 0;var d=s(t("MVZn")),i={namespace:"userList",state:{showDetail:!1,id:""},effects:{},reducers:{showDetail(e,a){return(0,d.default)({},e,{showDetail:a.payload.showDetail,id:a.payload.id})}}};a.default=i}}]);

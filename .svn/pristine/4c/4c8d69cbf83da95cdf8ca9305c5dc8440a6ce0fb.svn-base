@@ -1,0 +1,31 @@
+import dva from 'dva';
+import createLoading from 'dva-loading';
+
+const runtimeDva = window.g_plugins.mergeConfig('dva');
+let app = dva({
+  history: window.g_history,
+  
+  ...(runtimeDva.config || {}),
+});
+
+window.g_app = app;
+app.use(createLoading());
+(runtimeDva.plugins || []).forEach(plugin => {
+  app.use(plugin);
+});
+
+app.model({ namespace: 'global', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/global.js').default) });
+app.model({ namespace: 'list', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/list.js').default) });
+app.model({ namespace: 'login', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/login.js').default) });
+app.model({ namespace: 'project', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/project.js').default) });
+app.model({ namespace: 'setting', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/setting.js').default) });
+app.model({ namespace: 'user', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/models/user.js').default) });
+app.model({ namespace: 'detail', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/list/models/detail.js').default) });
+app.model({ namespace: 'form', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/list/models/form.js').default) });
+app.model({ namespace: 'index', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/list/models/index.js').default) });
+app.model({ namespace: 'table', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/list/models/table.js').default) });
+app.model({ namespace: 'userDetailLineChart', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/list/models/userDetailLineChart.js').default) });
+app.model({ namespace: 'circleDetail', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/portrait/models/circleDetail.js').default) });
+app.model({ namespace: 'lineChartDetail', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/portrait/models/lineChartDetail.js').default) });
+app.model({ namespace: 'pieDetail', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/portrait/models/pieDetail.js').default) });
+app.model({ namespace: 'ratioDetail', ...(require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/portrait/models/ratioDetail.js').default) });

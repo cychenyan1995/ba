@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ba.userList.mapper.UserListMapper">
+	<resultMap id="BaseResultMap"
+		type="com.glsx.oms.bigdata.admin.ba.userList.model.UserList">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="account" jdbcType="VARCHAR" property="account" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+		<result column="gender" jdbcType="VARCHAR" property="gender" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="car_num" jdbcType="VARCHAR" property="carNum" />
+		<result column="car_brand" jdbcType="VARCHAR" property="carBrand" />
+		<result column="mini_program_time" jdbcType="INTEGER" property="miniProgramTime" />
+		<result column="term_used_time" jdbcType="INTEGER" property="termUsedTime" />
+		<result column="total_flow" jdbcType="REAL" property="totalFlow" />
+		<result column="per_day_flow" jdbcType="REAL" property="perDayFlow" />
+		<result column="pk_end_time" jdbcType="TIMESTAMP" property="pkEndTime" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, account, mobile, register_time, name, id_card_no,
+		gender, province,
+		city, car_num,
+		car_brand, mini_program_time,
+		term_used_time, total_flow, per_day_flow,
+		pk_end_time,
+		create_time,
+		update_time
+	</sql>
+
+	<select id="selectAllUser"
+		parameterType="com.glsx.oms.bigdata.admin.ba.userList.model.UserList"
+		resultType="com.glsx.oms.bigdata.admin.ba.userList.model.UserList">
+		SELECT
+		u.id id,
+		u.account account,
+		u.mobile mobile,
+		u.register_time registerTime,
+		u.name name,
+		u.id_card_no idCardNo,
+		u.gender gender,
+		u.province province,
+		u.city city,
+		u.car_num carNum,
+		u.car_brand carBrand,
+		u.mini_program_time miniProgramTime,
+		u.term_used_time termUsedTime,
+		u.total_flow totalFlow,
+		u.per_day_flow perDayFlow,
+		u.pk_end_time pkEndTime,
+		u.create_time createTime,
+		u.update_time updateTime
+		from behavior_analyze_user u
+		where 1 = 1
+		<if test="name != null and name != ''">
+			and u.name=#{name}
+		</if>
+		<if test="idCardNo != null and idCardNo != ''">
+			and u.id_card_no=#{idCardNo}
+		</if>
+		<if test="mobile != null and mobile != ''">
+			and u.mobile=#{mobile}
+		</if>
+		<if test="gender != null and gender != ''">
+			and u.gender=#{gender}
+		</if>
+		<if test="startTime1 != null and endTime1!=null">
+		AND DATE_FORMAT(u.register_time,'%Y-%m-%d') BETWEEN DATE_FORMAT(#{startTime1},'%Y-%m-%d') AND DATE_FORMAT(#{endTime1},'%Y-%m-%d')
+		</if>
+		<if test="province != null and province != ''">
+			and u.province=#{province}
+		</if>
+		<if test="city != null and city != ''">
+			and u.city=#{city}
+		</if>
+	</select>
+	
+	<select id="selectByAccount"
+		parameterType="java.lang.String"
+		resultType="com.glsx.oms.bigdata.admin.ba.userList.model.UserList">
+		SELECT
+		u.id id,
+		u.account account,
+		u.mobile mobile,
+		DATE_FORMAT(u.register_time,'%Y-%m-%d') registerTime,
+		u.name name,
+		u.id_card_no idCardNo,
+		u.gender gender,
+		u.province province,
+		u.city city,
+		u.car_num carNum,
+		u.car_brand carBrand,
+		u.mini_program_time miniProgramTime,
+		u.term_used_time termUsedTime,
+		u.total_flow totalFlow,
+		u.per_day_flow perDayFlow,
+		DATE_FORMAT(u.pk_end_time,'%Y-%m-%d') pkEndTime,
+		DATE_FORMAT(u.create_time,'%Y-%m-%d') createTime,
+		DATE_FORMAT(u.update_time,'%Y-%m-%d') updateTime
+		from behavior_analyze_user u
+		where 1 = 1
+		<if test="account != null and account != ''">
+			and u.account=#{account}
+		</if>
+	</select>
+</mapper>

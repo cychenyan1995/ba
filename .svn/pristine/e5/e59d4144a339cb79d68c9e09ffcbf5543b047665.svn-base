@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ba.portrait.mapper.PortraitMapper">
+	<select id="querySexData" resultType="com.glsx.oms.bigdata.admin.ba.portrait.model.Portrait">
+		SELECT
+			count(*) sexNum,
+			gender sex
+		FROM
+			behavior_analyze_user
+		GROUP BY
+			gender
+	</select>
+	
+	<select id="queryAgeData" resultType="com.glsx.oms.bigdata.admin.ba.portrait.model.Portrait">
+		SELECT
+	count(id) AS ageNum,
+	(
+		CASE
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 0 and 17 THEN
+			'0-17岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 18 and 24 THEN
+			'18-24岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 25 and 34 THEN
+			'25-34岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 35 and 44 THEN
+			'35-44岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 45 and 54 THEN
+			'45-54岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) >= 55 THEN
+			'55岁以上'
+		END
+		) AS ageRange
+	FROM
+		behavior_analyze_user
+	GROUP BY
+	CASE
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 0 and 17 THEN
+			'0-17岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 18 and 24 THEN
+			'18-24岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 25 and 34 THEN
+			'25-34岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 35 and 44 THEN
+			'35-44岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) between 45 and 54 THEN
+			'45-54岁'
+		WHEN ROUND(
+			DATEDIFF(CURDATE(), birthday) / 365.2422
+		) >= 55 THEN
+			'55岁以上'
+		END
+	</select>
+	
+	<select id="queryDeviceTypeData" resultType="com.glsx.oms.bigdata.admin.ba.portrait.model.Portrait">
+		SELECT
+			(case when dev_type =2 then 'OBD'
+					when dev_type =4 then '车机'
+					when dev_type =5 then '追踪器'
+					when dev_type =6 then '后视镜'
+					when dev_type =7 then '行车记录仪'
+			END) as devType,
+			total devTotal
+		FROM
+			behavior_analyze_device_distribution
+	</select>
+	
+	<select id="queryCityData" resultType="com.glsx.oms.bigdata.admin.ba.portrait.model.Portrait">
+		select count(*) provinceNum,province
+		from behavior_analyze_user
+		group by province
+	</select>
+</mapper>

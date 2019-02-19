@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ba.userList.mapper.EventListMapper">
+	<resultMap id="BaseResultMap"
+		type="com.glsx.oms.bigdata.admin.ba.userList.model.EventList">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="sn" jdbcType="VARCHAR" property="sn" />
+		<result column="device_type" jdbcType="TINYINT" property="deviceType" />
+		<result column="network" jdbcType="TINYINT" property="network" />
+		<result column="client_ip" jdbcType="VARCHAR" property="clientIp" />
+		<result column="seqno" jdbcType="INTEGER" property="seqno" />
+		<result column="client_time" jdbcType="TIMESTAMP" property="clientTime" />
+		<result column="event_id" jdbcType="INTEGER" property="eventId" />
+		<result column="event_param" jdbcType="VARCHAR" property="eventParam" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, sn, device_type, network, client_ip, seqno, client_time, event_id,
+		event_param,
+		create_time, update_time
+	</sql>
+
+	<select id="selectDeviceEventList"
+		parameterType="com.glsx.oms.bigdata.admin.ba.userList.model.UserList"
+		resultType="com.glsx.oms.bigdata.admin.ba.userList.model.EventList">
+		SELECT
+		d.id id,
+		d.account account,
+		DATE_FORMAT(d.client_time,'%Y-%m-%d') day,
+		DATE_FORMAT(d.client_time,'%H:%i:%S') time,
+		DATE_FORMAT(d.client_time,'%Y-%m-%d') clientTime,
+		d.event_param eventParam,
+		DATE_FORMAT(d.create_time,'%Y-%m-%d') createTime,
+		DATE_FORMAT(d.update_time,'%Y-%m-%d') updateTime
+		FROM
+		behavior_analyze_device_events d
+		WHERE 1 = 1
+		<if test="account != null and account != ''">
+			and d.account=#{account}
+		</if>
+		<if test="startTime1 != null and endTime1!=null">
+		AND DATE_FORMAT(d.client_time,'%Y-%m-%d') BETWEEN DATE_FORMAT(#{startTime1},'%Y-%m-%d') AND DATE_FORMAT(#{endTime1},'%Y-%m-%d')
+		</if>
+		ORDER BY DATE_FORMAT(d.client_time,'%Y-%m-%d %H:%i:%S') desc
+	</select>
+	
+	<select id="selectProgramEventList"
+		parameterType="com.glsx.oms.bigdata.admin.ba.userList.model.UserList"
+		resultType="com.glsx.oms.bigdata.admin.ba.userList.model.EventList">
+		SELECT
+		p.id id,
+		p.account account,
+		DATE_FORMAT(p.client_time,'%Y-%m-%d') day,
+		DATE_FORMAT(p.client_time,'%H:%i:%S') time,
+		DATE_FORMAT(p.client_time,'%Y-%m-%d') clientTime,
+		p.event_param eventParam,
+		DATE_FORMAT(p.create_time,'%Y-%m-%d') createTime,
+		DATE_FORMAT(p.update_time,'%Y-%m-%d') updateTime
+		FROM
+		behavior_analyze_program_events p
+		WHERE 1 = 1
+		<if test="account != null and account != ''">
+			and p.account=#{account}
+		</if>
+		<if test="startTime1 != null and endTime1!=null">
+		AND DATE_FORMAT(p.client_time,'%Y-%m-%d') BETWEEN DATE_FORMAT(#{startTime1},'%Y-%m-%d') AND DATE_FORMAT(#{endTime1},'%Y-%m-%d')
+		</if>
+		ORDER BY DATE_FORMAT(p.client_time,'%Y-%m-%d %H:%i:%S') desc
+	</select>
+
+</mapper>

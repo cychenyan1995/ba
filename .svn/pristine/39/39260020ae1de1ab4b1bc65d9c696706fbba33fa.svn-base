@@ -1,0 +1,57 @@
+import React from 'react';
+import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
+import dynamic from 'umi/dynamic';
+import renderRoutes from 'umi/_renderRoutes';
+import RendererWrapper0 from 'D:/Workspace/gldb-admin-ba/src/main/webapp/src/pages/.umi/LocaleWrapper.jsx'
+
+let Router = require('dva/router').routerRedux.ConnectedRouter;
+
+let routes = [
+  {
+    "path": "/",
+    "redirect": "/user/list",
+    "exact": true
+  },
+  {
+    "path": "/",
+    "component": dynamic({ loader: () => import('../../layouts/BasicLayout'), loading: require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/components/PageLoading/index').default  }),
+    "Routes": [require('../Authorized').default],
+    "authority": [
+      "admin",
+      "user"
+    ],
+    "routes": [
+      {
+        "path": "/user/list",
+        "icon": "user",
+        "name": "user.list",
+        "component": dynamic({ loader: () => import('../list/index'), loading: require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/components/PageLoading/index').default  }),
+        "exact": true
+      },
+      {
+        "path": "/user/portrait",
+        "icon": "dashboard",
+        "name": "user.portrait",
+        "component": dynamic({ loader: () => import('../portrait/index'), loading: require('D:/Workspace/gldb-admin-ba/src/main/webapp/src/components/PageLoading/index').default  }),
+        "exact": true
+      },
+      {
+        "component": () => React.createElement(require('D:/Workspace/gldb-admin-ba/src/main/webapp/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+      }
+    ]
+  },
+  {
+    "component": () => React.createElement(require('D:/Workspace/gldb-admin-ba/src/main/webapp/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+  }
+];
+window.g_plugins.applyForEach('patchRoutes', { initialValue: routes });
+
+export default function() {
+  return (
+<RendererWrapper0>
+          <Router history={window.g_history}>
+      { renderRoutes(routes, {}) }
+    </Router>
+        </RendererWrapper0>
+  );
+}
